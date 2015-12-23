@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:mongodb| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing the application [b]MongoDB[/b].
+    MongoDB document databases provide high availability and easy scalability.
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]MongoDB![/b]
+    To access [b]MongoDB[/b] use:
+    [b]IP:[/b] %PUBLIC_ADDRESS%
+    [b]Port:[/b] $MONGO_HOST_PORT$
+
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: mongodb
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginning
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mongodb
+              kubes: 2
+          persistentDisks:
+            - name: mongodb-persistent-storage
+              pdSize: 1
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mongodb
+              kubes: 4
+          persistentDisks:
+            - name: mongodb-persistent-storage
+              pdSize: 1
+    - name: L
+      goodFor: business
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 2
+          containers:
+            - name: mongodb
+              kubes: 2
+          persistentDisks:
+            - name: mongodb-persistent-storage
+              pdSize: 2
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      volumes:
+        - name: mongodb-persistent-storage
+          persistentDisk:
+            pdName: mongodb_$PD_RAND|default:autogen|PD rand$
+      restartPolicy: "Always"
+      containers:
+        -
+          name: mongodb
+          image: mongo:3
+          ports:
+            - containerPort: 27017
+              podPort: $MONGO_HOST_PORT|default:27017|Enter MongoDB host port$
+              isPublic: True
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongodb-persistent-storage

@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:elasticsearch| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing the application [b]ElasticSearch[/b].
+    Elasticsearch is a powerful open source search and analytics engine that makes data easy to explore.
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]ElasticSearch![/b]
+    To access [b]ElasticSearch[/b] use your podIP with ports:
+    [b]Http port:[/b] $ELASTIC_HTTP_HOST_PORT$
+    [b]Tcp port:[/b] $ELASTIC_TCP_HOST_PORT$
+
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: elastic
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginning
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: elastic
+              kubes: 3
+          persistentDisks:
+            - name: elastic-persistent-storage
+              pdSize: 1
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: elastic
+              kubes: 6
+          persistentDisks:
+            - name: elastic-persistent-storage
+              pdSize: 1
+    - name: L
+      goodFor: business
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 2
+          containers:
+            - name: elastic
+              kubes: 4
+          persistentDisks:
+            - name: elastic-persistent-storage
+              pdSize: 2
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      volumes:
+        - name: elastic-persistent-storage
+          persistentDisk:
+            pdName: elastic_pd_$PD_RAND|default:autogen|PD rand$
+      restartPolicy: "Always"
+      containers:
+        - name: elastic
+          image: elasticsearch:2
+          ports:
+            - containerPort: 9200
+              podPort: $ELASTIC_HTTP_HOST_PORT|default:9200|Enter ElasticSearch http host port$
+              isPublic: False
+            - containerPort: 9300
+              podPort: $ELASTIC_TCP_HOST_PORT|default:9300|Enter ElasticSearch tcp host port$
+              isPublic: False
+          volumeMounts:
+            - mountPath: /usr/share/elasticsearch/data
+              name: elastic-persistent-storage

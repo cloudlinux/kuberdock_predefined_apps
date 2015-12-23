@@ -1,0 +1,142 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:phpbb| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing the application [b]phpBB[/b].
+    [b]phpBB[/b] is a free flat-forum bulletin board software solution that can be used to stay in touch with a group of people or can power your entire website.
+    All the components needed for this application correct work will also be installed: [b]MySQL[/b] server.
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]phpBB[/b]
+    To access [b]phpBB[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
+    You can access [b]MySQL[/b] using credentials:
+    [b]Host:[/b] 127.0.0.1
+    [b]Database:[/b] phpbb
+    [b]Login:[/b] phpbb
+    [b]Password:[/b]  $MYSQL_USER_PASSWORD$
+
+    We recommend you to save the credentials.
+
+    Please, restart pod after installation.
+
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: phpbb
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginning
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mysql
+              kubes: 3
+            - name: phpbb
+              kubes: 2
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 1
+            - name: phpbb-persistent-storage
+              pdSize: 1
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mysql
+              kubes: 6
+            - name: phpbb
+              kubes: 4
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 1
+            - name: phpbb-persistent-storage
+              pdSize: 1
+    - name: L
+      goodFor: business
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 2
+          containers:
+            - name: mysql
+              kubes: 4
+            - name: phpbb
+              kubes: 2
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 2
+            - name: phpbb-persistent-storage
+              pdSize: 2
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      volumes:
+        - name: mysql-persistent-storage
+          persistentDisk:
+            pdName: phpbb_mysql_$PD_RAND|default:autogen|PD rand$
+        - name: phpbb-persistent-storage
+          persistentDisk:
+            pdName: phpbb_www_$PD_RAND$
+      restartPolicy: "Always"
+      containers:
+        -
+          name: mysql
+          image: mysql:5
+          env:
+            - name: MYSQL_DATABASE
+              value: phpbb
+            - name: MYSQL_USER
+              value: phpbb
+            - name: MYSQL_PASSWORD
+              value: $MYSQL_USER_PASSWORD|default:autogen|mysql password$
+            - name: MYSQL_ROOT_PASSWORD
+              value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql password$
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-persistent-storage
+        -
+          name: phpbb
+          image: vimagick/phpbb
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - >
+                    chown -R www-data:www-data /var/www/html;
+                    if [ -s /var/www/html/config.php ]; then
+                    rm -rf /var/www/html/install;
+                    fi;
+                    if [ ! -f /var/www/html/index.html ]; then
+                    mount --bind / /mnt;
+                    cp -rp /mnt/var/www/html/. /var/www/html/;
+                    umount /mnt;
+                    fi
+          ports:
+            - containerPort: 80
+              isPublic: True
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: phpbb-persistent-storage
+          workingDir: /var/www/html
