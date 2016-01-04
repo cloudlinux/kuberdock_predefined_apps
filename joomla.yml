@@ -89,7 +89,7 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           persistentDisk:
-            pdName: joomla__mysql_$PD_RAND|default:autogen|PD rand$
+            pdName: joomla_mysql_$PD_RAND|default:autogen|PD rand$
         - name: joomla-persistent-storage
           persistentDisk:
             pdName: joomla_www_$PD_RAND$
