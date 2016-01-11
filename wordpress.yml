@@ -5,7 +5,7 @@ metadata:
 kuberdock:
   name: "User-side application name"
   icon: "Path to icon"
-  # packageID: 0
+  packageID: 0
   preDescription: |
     You are installing the application [b]WordPress[/b].
     The WordPress rich content management system can utilize plugins, widgets, and themes.
@@ -109,7 +109,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: wordpress
-          image: wordpress:4
+          image: wordpress:4.4.0
           env:
             - name: WORDPRESS_DB_USER
               value: wordpress
