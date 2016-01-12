@@ -26,7 +26,7 @@ kuberdock:
       # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
   appPackages:
     - name: S
-      goodFor: beginning
+      goodFor: beginner
       publicIP: true
       pods:
         -
