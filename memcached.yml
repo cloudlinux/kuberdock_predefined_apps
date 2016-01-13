@@ -32,7 +32,6 @@ kuberdock:
           containers:
             - name: memcached
               kubes: 1
-              pdSize: 1
     - name: M
       recommended: yes
       goodFor: regular use
@@ -44,7 +43,6 @@ kuberdock:
           containers:
             - name: memcached
               kubes: 2
-              pdSize: 1
     - name: L
       goodFor: business
       publicIP: true
@@ -55,7 +53,6 @@ kuberdock:
           containers:
             - name: memcached
               kubes: 4
-              pdSize: 2
 spec:
   template:
     metadata:
