@@ -3,8 +3,6 @@ kind: ReplicationController
 metadata:
   name: $APP_NAME|default:wordpress| Enter your application name$
 kuberdock:
-  name: "User-side application name"
-  icon: "Path to icon"
   packageID: 0
   preDescription: |
     You are installing the application [b]WordPress[/b].
