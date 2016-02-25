@@ -39,7 +39,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: mysql
-              kubes: 3
+              kubes: 4
             - name: phpbb
               kubes: 2
           persistentDisks:

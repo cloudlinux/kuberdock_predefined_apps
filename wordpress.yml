@@ -29,7 +29,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: mysql
-              kubes: 3
+              kubes: 4
             - name: wordpress
               kubes: 2
           persistentDisks:
