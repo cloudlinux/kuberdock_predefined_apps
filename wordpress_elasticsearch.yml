@@ -34,7 +34,7 @@ kuberdock:
             - name: wordpress
               kubes: 2
             - name: elastic
-              kubes: 3
+              kubes: 5
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
