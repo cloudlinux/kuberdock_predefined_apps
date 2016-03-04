@@ -93,9 +93,7 @@ spec:
                   - >
                     chown -R www-data:www-data /app;
                     if [ ! -f /app/index.php ]; then
-                    mount --bind / /mnt;
-                    cp -rp /mnt/app/. /app/;
-                    umount /mnt;
+                    cp -rp /originroot/app/. /app/;
                     fi
           ports:
             - containerPort: 80

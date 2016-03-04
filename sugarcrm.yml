@@ -126,9 +126,7 @@ spec:
                   - >
                     chown -R www-data:www-data /var/www/html;
                     if [ ! -f /var/www/html/index.php ]; then
-                    mount --bind / /mnt;
-                    cp -rp /mnt/var/www/html/. /var/www/html/;
-                    umount /mnt;
+                    cp -rp /originroot/var/www/html/. /var/www/html/;
                     fi
           env:
             - name: DATABASE_NAME

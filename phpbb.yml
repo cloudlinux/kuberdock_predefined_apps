@@ -129,9 +129,7 @@ spec:
                     rm -rf /var/www/html/install;
                     fi;
                     if [ ! -f /var/www/html/index.html ]; then
-                    mount --bind / /mnt;
-                    cp -rp /mnt/var/www/html/. /var/www/html/;
-                    umount /mnt;
+                    cp -rp /originroot/var/www/html/. /var/www/html/;
                     fi
           ports:
             - containerPort: 80
