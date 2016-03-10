@@ -114,7 +114,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: gallery
-          image: mathieuruellan/gallery3
+          image: kuberdock/gallery3
           ports:
           - containerPort: 80
             isPublic: True
