@@ -37,7 +37,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: mysql
-              kubes: 4
+              kubes: 5
             - name: joomla
               kubes: 2
           persistentDisks:

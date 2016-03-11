@@ -1,28 +1,33 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: $APP_NAME|default:redmine| Enter your application name$
+  name: $APP_NAME|default:mantis| Enter your application name$
 kuberdock:
   packageID: 0
   preDescription: |
-    You are installing the application [b]Redmine[/b].
-    Redmine is a flexible project management web application written using Ruby on Rails framework
+    You are installing the application [b]Mantis[/b].
+    [b]Mantis[/b] is an open source issue tracker that provides a delicate balance between simplicity and power.
+    All the components needed for this application correct work will also be installed: [b]MySQL[/b] server.
     Choose the amount of resources or use recommended parameters set by default.
     First choose package.
     When you click "Order now", you will get to order processing page.
   postDescription: |
-    You have installed [b]Redmine![/b]
-    To access [b]Redmine[/b] use this link: [url]http://%PUBLIC_ADDRESS%:$REDMINE_HOST_PORT$[/url]
+    You have installed [b]Mantis[/b]
+    To access [b]Mantis[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
     You can access [b]MySQL[/b] using credentials:
     [b]Host:[/b] 127.0.0.1
-    [b]Database:[/b] redmine
-    [b]Login:[/b] redmine
-    [b]Password:[/b] $MYSQL_USER_PASSWORD$
+    [b]Database:[/b] bugtracker
+    [b]Login:[/b] mantis
+    [b]Password:[/b]  $MYSQL_USER_PASSWORD$
+
+    We recommend you to save the credentials.
+
+    Please, restart pod after installation.
 
   # required for cPanel to do proxy to user`s domain
   # proxy:
     # root:
-      # container: redmine
+      # container: mantis
       # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
   appPackages:
     - name: S
@@ -35,12 +40,12 @@ kuberdock:
           containers:
             - name: mysql
               kubes: 5
-            - name: redmine
-              kubes: 3
+            - name: mantis
+              kubes: 1
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
-            - name: redmine-persistent-storage
+            - name: mantis-persistent-storage
               pdSize: 1
     - name: M
       recommended: yes
@@ -53,12 +58,12 @@ kuberdock:
           containers:
             - name: mysql
               kubes: 6
-            - name: redmine
-              kubes: 5
+            - name: mantis
+              kubes: 2
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
-            - name: redmine-persistent-storage
+            - name: mantis-persistent-storage
               pdSize: 1
     - name: L
       goodFor: business
@@ -70,12 +75,12 @@ kuberdock:
           containers:
             - name: mysql
               kubes: 4
-            - name: redmine
-              kubes: 2
+            - name: mantis
+              kubes: 1
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 2
-            - name: redmine-persistent-storage
+            - name: mantis-persistent-storage
               pdSize: 2
 spec:
   template:
@@ -86,47 +91,50 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           persistentDisk:
-            pdName: redmine_mysql_$PD_RAND|default:autogen|PD rand$
-        - name: redmine-persistent-storage
+            pdName: mantis_mysql_$PD_RAND|default:autogen|PD rand$
+        - name: mantis-persistent-storage
           persistentDisk:
-            pdName: redmine_files_$PD_RAND$
+            pdName: mantis_www_$PD_RAND$
       restartPolicy: "Always"
-      resolve: [mysql]
       containers:
         -
           name: mysql
           image: mysql:5
           env:
             - name: MYSQL_DATABASE
-              value: redmine
+              value: bugtracker
             - name: MYSQL_USER
-              value: redmine
+              value: mantis
             - name: MYSQL_PASSWORD
-              value: $MYSQL_USER_PASSWORD|default:autogen|mysql user password$
+              value: $MYSQL_USER_PASSWORD|default:autogen|mysql password$
             - name: MYSQL_ROOT_PASSWORD
-              value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql root password$
+              value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql password$
           ports:
             - containerPort: 3306
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-persistent-storage
         -
-          name: redmine
-          image: redmine:3
-          env:
-            - name: MYSQL_PORT_3306_TCP
-              value: "3306"
-            - name: MYSQL_ENV_MYSQL_DATABASE
-              value: redmine
-            - name: MYSQL_ENV_MYSQL_USER
-              value: redmine
-            - name: MYSQL_ENV_MYSQL_PASSWORD
-              value: $MYSQL_USER_PASSWORD$
+          name: mantis
+          image: vimagick/mantisbt
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - >
+                    chown -R www-data:www-data /var/www/html;
+                    if [ -s /var/www/html/config_inc.php ]; then
+                    rm -rf /var/www/html/admin;
+                    fi;
+                    if [ ! -f /var/www/html/index.php ]; then
+                    cp -rp /originroot/var/www/html/. /var/www/html/;
+                    fi
           ports:
-            - containerPort: 3000
-              podPort: $REDMINE_HOST_PORT|default:3000|Enter Redmine host port$
+            - containerPort: 80
               isPublic: True
           volumeMounts:
-            - mountPath: /usr/src/redmine/files
-              name: redmine-persistent-storage
-          workingDir: /usr/src/redmine
+            - mountPath: /var/www/html
+              name: mantis-persistent-storage
+          workingDir: /var/www/html
