@@ -36,7 +36,7 @@ kuberdock:
             - name: mysql
               kubes: 4
             - name: redmine
-              kubes: 2
+              kubes: 3
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
@@ -54,7 +54,7 @@ kuberdock:
             - name: mysql
               kubes: 6
             - name: redmine
-              kubes: 4
+              kubes: 5
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
