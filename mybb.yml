@@ -1,0 +1,138 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:mybb| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing the application [b]MyBB[/b].
+    [b]MyBB[/b] is the free and open source, intuitive, extensible, and incredibly powerful forum software you've been looking for.
+    All the components needed for this application correct work will also be installed: [b]MySQL[/b] server.
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]MyBB[/b]
+    To access [b]MyBB[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
+    You can access [b]MySQL[/b] using credentials:
+    [b]Host:[/b] 127.0.0.1
+    [b]Database:[/b] mybb
+    [b]Login:[/b] mybb
+    [b]Password:[/b]  $MYSQL_USER_PASSWORD$
+
+    We recommend you to save the credentials.
+
+    Please, restart pod after installation.
+
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: mybb
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginner
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mysql
+              kubes: 4
+            - name: mybb
+              kubes: 2
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 1
+            - name: mybb-persistent-storage
+              pdSize: 1
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mysql
+              kubes: 6
+            - name: mybb
+              kubes: 4
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 1
+            - name: mybb-persistent-storage
+              pdSize: 1
+    - name: L
+      goodFor: business
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 2
+          containers:
+            - name: mysql
+              kubes: 4
+            - name: mybb
+              kubes: 2
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 2
+            - name: mybb-persistent-storage
+              pdSize: 2
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      volumes:
+        - name: mysql-persistent-storage
+          persistentDisk:
+            pdName: mybb_mysql_$PD_RAND|default:autogen|PD rand$
+        - name: mybb-persistent-storage
+          persistentDisk:
+            pdName: mybb_www_$PD_RAND$
+      restartPolicy: "Always"
+      containers:
+        -
+          name: mysql
+          image: mysql:5
+          env:
+            - name: MYSQL_DATABASE
+              value: mybb
+            - name: MYSQL_USER
+              value: mybb
+            - name: MYSQL_PASSWORD
+              value: $MYSQL_USER_PASSWORD|default:autogen|mysql password$
+            - name: MYSQL_ROOT_PASSWORD
+              value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql password$
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-persistent-storage
+        -
+          name: mybb
+          image: fbmac/mybb
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - >
+                    if [ -s /var/www/mybb/inc/config.php ]; then
+                    rm -rf /var/www/mybb/install;
+                    fi;
+                    if [ ! -f /var/www/mybb/index.php ]; then
+                    cp -rp /originroot/var/www/mybb/. /var/www/mybb/;
+                    fi
+          ports:
+            - containerPort: 80
+              isPublic: True
+          volumeMounts:
+            - mountPath: /var/www/mybb
+              name: mybb-persistent-storage
