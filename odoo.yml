@@ -38,7 +38,7 @@ kuberdock:
             - name: postgres
               kubes: 2
             - name: odoo
-              kubes: 2
+              kubes: 3
           persistentDisks:
             - name: postgres-persistent-storage
               pdSize: 1
