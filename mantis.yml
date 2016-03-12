@@ -41,7 +41,7 @@ kuberdock:
             - name: mysql
               kubes: 5
             - name: mantis
-              kubes: 1
+              kubes: 2
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
@@ -59,7 +59,7 @@ kuberdock:
             - name: mysql
               kubes: 6
             - name: mantis
-              kubes: 2
+              kubes: 4
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
@@ -76,7 +76,7 @@ kuberdock:
             - name: mysql
               kubes: 4
             - name: mantis
-              kubes: 1
+              kubes: 2
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 2
