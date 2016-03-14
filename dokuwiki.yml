@@ -1,0 +1,154 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:dokuwiki| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing the application [b]DokuWiki[/b].
+    [b]DokuWiki[/b] is a simple to use and highly versatile Open Source wiki software that doesn't require a database. 
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]DokuWiki[/b]
+    To access [b]DokuWiki[/b] use this link: [url]http://%PUBLIC_ADDRESS%/install.php[/url]
+
+    Please, restart pod after installation.
+
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: dokuwiki
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginner
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: dokuwiki
+              kubes: 2
+          persistentDisks:
+            - name: dokuwiki-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-tpl-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-conf-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-data-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-plugins-persistent-storage
+              pdSize: 1
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: dokuwiki
+              kubes: 4
+          persistentDisks:
+            - name: dokuwiki-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-tpl-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-conf-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-data-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-plugins-persistent-storage
+              pdSize: 1
+    - name: L
+      goodFor: business
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: dokuwiki
+              kubes: 8
+          persistentDisks:
+            - name: dokuwiki-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-tpl-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-conf-persistent-storage
+              pdSize: 1
+          persistentDisks:
+            - name: dokuwiki-data-persistent-storage
+              pdSize: 2
+          persistentDisks:
+            - name: dokuwiki-plugins-persistent-storage
+              pdSize: 1
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      volumes:
+        - name: dokuwiki-persistent-storage
+          persistentDisk:
+            pdName: dokuwiki_www_$PD_RAND|default:autogen|PD rand$
+        - name: dokuwiki-conf-persistent-storage
+          persistentDisk:
+            pdName: dokuwiki_conf_$PD_RAND$
+        - name: dokuwiki-tpl-persistent-storage
+          persistentDisk:
+            pdName: dokuwiki_tpl_$PD_RAND$
+        - name: dokuwiki-plugins-persistent-storage
+          persistentDisk:
+            pdName: dokuwiki_plugins_$PD_RAND$
+        - name: dokuwiki-data-persistent-storage
+          persistentDisk:
+            pdName: dokuwiki_data_$PD_RAND$
+      restartPolicy: "Always"
+      containers:
+        -
+          name: dokuwiki
+          image: mprasil/dokuwiki
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - >
+                    if [ -e /dokuwiki/conf/local.php ]; then
+                    rm -rf /dokuwiki/install.php;
+                    fi;
+                    if [ ! -f /dokuwiki/index.php ]; then
+                    cp -rp /originroot/dokuwiki/. /dokuwiki/;
+                    fi
+          ports:
+            - containerPort: 80
+              isPublic: True
+          volumeMounts:
+            - mountPath: /dokuwiki
+              name: dokuwiki-persistent-storage
+            - mountPath: /dokuwiki/data
+              name: dokuwiki-data-persistent-storage
+            - mountPath: /dokuwiki/lib/plugins
+              name: dokuwiki-plugins-persistent-storage
+            - mountPath: /dokuwiki/conf
+              name: dokuwiki-conf-persistent-storage
+            - mountPath: /dokuwiki/lib/tpl
+              name: dokuwiki-tpl-persistent-storage
