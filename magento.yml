@@ -114,7 +114,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: magento
-          image: vimagick/magento
+          image: alexcheng/magento
           lifecycle:
             postStart:
               exec:
@@ -122,14 +122,13 @@ spec:
                   - "sh"
                   - "-c"
                   - >
-                    chown -R www-data:www-data /var/www/html;
-                    if [ ! -f /var/www/html/index.html ]; then
-                    cp -rp /originroot/var/www/html/. /var/www/html/;
+                    chown -R www-data:www-data /var/www/htdocs;
+                    if [ ! -f /var/www/htdocs/index.php ]; then
+                    cp -rp /originroot/var/www/htdocs/. /var/www/htdocs/;
                     fi
           ports:
             - containerPort: 80
               isPublic: True
           volumeMounts:
-            - mountPath: /var/www/html
+            - mountPath: /var/www/htdocs
               name: magento-persistent-storage
-          workingDir: /var/www/html
