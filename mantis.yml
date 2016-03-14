@@ -20,6 +20,8 @@ kuberdock:
     [b]Login:[/b] mantis
     [b]Password:[/b]  $MYSQL_USER_PASSWORD$
 
+    Please, read the application documentation: [url]https://www.mantisbt.org/documentation.php[/url]
+
     We recommend you to save the credentials.
 
     Please, restart pod after installation.
