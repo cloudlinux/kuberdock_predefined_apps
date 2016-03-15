@@ -22,6 +22,8 @@ kuberdock:
 
     We recommend you to save the credentials.
 
+    [b]Note:[/b] Please check "Skip Base URL Validation Before the Next Step" on "Configuration" step.
+
   # required for cPanel to do proxy to user`s domain
   # proxy:
     # root:
