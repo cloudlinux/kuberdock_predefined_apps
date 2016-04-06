@@ -89,6 +89,10 @@ spec:
             - containerPort: 5432
               podPort: $POSTGRESQL_PORT|default:5432|Enter PostgreSQL host port$
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-persistent-storage

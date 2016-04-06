@@ -124,6 +124,10 @@ spec:
             - containerPort: 8071
               podPort: $ODOO_XMLRPCS_HOST_PORT|default:8071|Enter Odoo XML-RPC/HTTP secure host port$
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 8069
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/odoo
               name: odoo-persistent-storage

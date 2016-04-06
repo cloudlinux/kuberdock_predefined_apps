@@ -19,6 +19,10 @@ kuberdock:
     [b]Login:[/b] redmine
     [b]Password:[/b] $MYSQL_USER_PASSWORD$
 
+    Please, read the application documentation: [url]http://www.redmine.org/projects/redmine/wiki/[/url]
+
+    We recommend you to save the credentials.
+
   # required for cPanel to do proxy to user`s domain
   # proxy:
     # root:
@@ -107,6 +111,10 @@ spec:
               value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql root password$
           ports:
             - containerPort: 3306
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-persistent-storage
@@ -126,6 +134,10 @@ spec:
             - containerPort: 3000
               podPort: $REDMINE_HOST_PORT|default:3000|Enter Redmine host port$
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /usr/src/redmine/files
               name: redmine-persistent-storage

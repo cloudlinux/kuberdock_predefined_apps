@@ -81,6 +81,10 @@ spec:
             - containerPort: 6379
               podPort: $REDIS_HOST_PORT|default:6379|Enter Redis host port$
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 1
           volumeMounts:
             - mountPath: /data
               name: redis-persistent-storage

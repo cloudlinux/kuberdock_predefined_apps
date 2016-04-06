@@ -117,6 +117,10 @@ spec:
               value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql password$
           ports:
             - containerPort: 3306
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-persistent-storage
@@ -133,6 +137,10 @@ spec:
           ports:
             - containerPort: 80
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/html
               name: wordpress-persistent-storage
@@ -144,6 +152,10 @@ spec:
               isPublic: False
             - containerPort: 9300
               isPublic: False
+          readinessProbe:
+            tcpSocket:
+              port: 9200
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: elastic-persistent-storage

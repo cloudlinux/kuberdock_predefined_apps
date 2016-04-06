@@ -68,3 +68,7 @@ spec:
             - containerPort: 11211
               podPort: $MEMCACHED_HOST_PORT|default:11211|Enter Memcached host port$
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 11211
+            initialDelaySeconds: 5

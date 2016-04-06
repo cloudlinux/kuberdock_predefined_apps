@@ -141,6 +141,10 @@ spec:
           ports:
             - containerPort: 80
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /dokuwiki
               name: dokuwiki-persistent-storage

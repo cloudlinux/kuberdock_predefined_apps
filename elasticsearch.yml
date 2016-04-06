@@ -80,6 +80,10 @@ spec:
             - containerPort: 9300
               podPort: $ELASTIC_TCP_HOST_PORT|default:9300|Enter ElasticSearch tcp host port$
               isPublic: False
+          readinessProbe:
+            tcpSocket:
+              port: 9200
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: elastic-persistent-storage

@@ -81,6 +81,10 @@ spec:
             - containerPort: 27017
               podPort: $MONGO_HOST_PORT|default:27017|Enter MongoDB host port$
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /data/db
               name: mongodb-persistent-storage

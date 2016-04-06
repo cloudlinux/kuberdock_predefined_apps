@@ -111,6 +111,10 @@ spec:
               value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql password$
           ports:
             - containerPort: 3306
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-persistent-storage
@@ -133,6 +137,10 @@ spec:
           ports:
             - containerPort: 80
               isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/mybb
               name: mybb-persistent-storage
