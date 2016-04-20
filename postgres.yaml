@@ -12,6 +12,7 @@ kuberdock:
     When you click "Order now", you will get to order processing page.
   postDescription: |
     You have installed [b]PostgreSQL![/b]
+    Please find more information about PostgreSQL software on the official website [url]http://www.postgresql.org/[/url]
     To access [b]PostgreSQL[/b] use:
     [b]Host:[/b] %PUBLIC_ADDRESS%
     [b]Port:[/b] $POSTGRESQL_PORT$

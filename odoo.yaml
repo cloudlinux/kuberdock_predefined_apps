@@ -13,6 +13,7 @@ kuberdock:
     When you click "Order now", you will get to order processing page.
   postDescription: |
     You have installed [b]Odoo![/b]
+    Please find more information about Odoo software on the official website [url]https://www.odoo.com/[/url]
     To access [b]Odoo[/b] use this link: [url]http://%PUBLIC_ADDRESS%:$ODOO_XMLRPC_HOST_PORT$[/url]
     [b]Odoo XML-RPC/HTTP port:[/b] $ODOO_XMLRPC_HOST_PORT$
     [b]Odoo XML-RPC/HTTP secure port:[/b] $ODOO_XMLRPCS_HOST_PORT$

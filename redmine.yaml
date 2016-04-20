@@ -12,6 +12,7 @@ kuberdock:
     When you click "Order now", you will get to order processing page.
   postDescription: |
     You have installed [b]Redmine![/b]
+    Please find more information about Redmine software on the official website [url]http://www.redmine.org/[/url]
     To access [b]Redmine[/b] use this link: [url]http://%PUBLIC_ADDRESS%:$REDMINE_HOST_PORT$[/url]
     You can access [b]MySQL[/b] using credentials:
     [b]Host:[/b] 127.0.0.1

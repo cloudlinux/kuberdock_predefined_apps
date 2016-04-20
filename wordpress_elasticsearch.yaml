@@ -13,6 +13,9 @@ kuberdock:
     When you click "Order now", you will get to order processing page.
   postDescription: |
     You have installed [b]WordPress with ElasticSearch![/b]
+    Please find more information about WordPress and ElasticSearch software on their official websites.
+    [url]https://wordpress.com[/url]
+    [url]https://www.elastic.co[/url]
     To access [b]WordPress[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
 
   # required for cPanel to do proxy to user`s domain

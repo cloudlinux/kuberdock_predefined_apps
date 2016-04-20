@@ -15,6 +15,7 @@ kuberdock:
     When you click "Order now", you will get to order processing page.
   postDescription: |
     You have installed [b]SugarCRM![/b]
+    Please find more information about SugarCRM software on the official website [url]https://www.sugarcrm.com/[/url]
     To access [b]SugarCRM[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
     You can access [b]MySQL[/b] using credentials:
     [b]Host:[/b] 127.0.0.1

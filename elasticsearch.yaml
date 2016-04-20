@@ -12,6 +12,7 @@ kuberdock:
     When you click "Order now", you will get to order processing page.
   postDescription: |
     You have installed [b]ElasticSearch![/b]
+    Please find more information about ElasticSearch software on the official website [url]https://www.elastic.co[/url]
     To access [b]ElasticSearch[/b] use your podIP with ports:
     [b]Http port:[/b] $ELASTIC_HTTP_HOST_PORT$
     [b]Tcp port:[/b] $ELASTIC_TCP_HOST_PORT$
