@@ -100,7 +100,7 @@ spec:
       containers:
         -
           name: mysql
-          image: mysql:5
+          image: kuberdock/mysql
           env:
             - name: MYSQL_DATABASE
               value: mybb
@@ -110,6 +110,8 @@ spec:
               value: $MYSQL_USER_PASSWORD|default:autogen|mysql password$
             - name: MYSQL_ROOT_PASSWORD
               value: $MYSQL_ROOT_PASSWORD|default:autogen|mysql password$
+            - name: MYSQL_AUTO_MEMORY_ALLOCATE
+              value: $MYSQL_AUTO_MEMORY_ALLOCATE|default:innodb|Please choose default MySQL engine "innodb" or "myisam"$
           ports:
             - containerPort: 3306
           readinessProbe:
