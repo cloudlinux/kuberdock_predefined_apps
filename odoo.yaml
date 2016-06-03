@@ -34,12 +34,12 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 0
           containers:
             - name: postgres
               kubes: 2
             - name: odoo
-              kubes: 3
+              kubes: 2
           persistentDisks:
             - name: postgres-persistent-storage
               pdSize: 1
@@ -55,9 +55,9 @@ kuberdock:
           kubeType: 1
           containers:
             - name: postgres
-              kubes: 4
+              kubes: 2
             - name: odoo
-              kubes: 4
+              kubes: 2
           persistentDisks:
             - name: postgres-persistent-storage
               pdSize: 1

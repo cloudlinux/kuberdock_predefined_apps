@@ -29,7 +29,7 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 0
           containers:
             - name: dokuwiki
               kubes: 2
@@ -58,7 +58,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: dokuwiki
-              kubes: 4
+              kubes: 2
           persistentDisks:
             - name: dokuwiki-persistent-storage
               pdSize: 1
@@ -80,10 +80,10 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 2
           containers:
             - name: dokuwiki
-              kubes: 8
+              kubes: 2
           persistentDisks:
             - name: dokuwiki-persistent-storage
               pdSize: 1

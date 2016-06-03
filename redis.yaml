@@ -43,10 +43,10 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 0
+          kubeType: 1
           containers:
             - name: redis
-              kubes: 2
+              kubes: 1
           persistentDisks:
             - name: redis-persistent-storage
               pdSize: 1
@@ -56,10 +56,10 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 0
+          kubeType: 2
           containers:
             - name: redis
-              kubes: 4
+              kubes: 1
           persistentDisks:
             - name: redis-persistent-storage
               pdSize: 2
