@@ -97,7 +97,7 @@ spec:
       containers:
         -
           name: postgres
-          image: postgres:9
+          image: postgres:9.4
           env:
             - name: POSTGRES_USER
               value: odoo
@@ -111,6 +111,17 @@ spec:
         -
           name: odoo
           image: kuberdock/odoo
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "sh"
+                  - "-c"
+                  - >
+                    if [ ! -f  /var/lib/odoo/openerp-server.conf ]; then
+                    cp /etc/odoo/openerp-server.conf /var/lib/odoo/openerp-server.conf;
+                    chown odoo -R /var/lib/odoo;
+                    fi
           env:
             - name: DB_PORT_5432_TCP_ADDR
               value: 127.0.0.1
@@ -118,6 +129,8 @@ spec:
               value: odoo
             - name: DB_ENV_POSTGRES_PASSWORD
               value: $POSTGRES_USER_PASSWORD$
+            - name: OPENERP_SERVER
+              value: /var/lib/odoo/openerp-server.conf
           ports:
             - containerPort: 8069
               podPort: $ODOO_XMLRPC_HOST_PORT|default:80|Enter Odoo XML-RPC/HTTP host port$
@@ -132,4 +145,3 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/odoo
               name: odoo-persistent-storage
-
