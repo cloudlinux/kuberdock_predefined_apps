@@ -22,7 +22,8 @@ kuberdock:
 
     Please, read the application documentation: [url]http://www.redmine.org/projects/redmine/wiki/[/url]
 
-    We recommend you to save the credentials.
+    [b]Important![/b] The default username and password are admin/admin. We strongly recommend to change
+    Redmine password after login to something more secure from Adminitration > Users
 
   # required for cPanel to do proxy to user`s domain
   # proxy:
