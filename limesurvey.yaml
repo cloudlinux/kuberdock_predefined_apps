@@ -32,10 +32,10 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 0
           containers:
             - name: limesurvey
-              kubes: 5
+              kubes: 7
           persistentDisks:
             - name: limesurvey-persistent-storage
               pdSize: 1
@@ -49,7 +49,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: limesurvey
-              kubes: 2
+              kubes: 7
           persistentDisks:
             - name: limesurvey-persistent-storage
               pdSize: 1
@@ -62,7 +62,7 @@ kuberdock:
           kubeType: 2
           containers:
             - name: limesurvey
-              kubes: 4
+              kubes: 7
           persistentDisks:
             - name: limesurvey-persistent-storage
               pdSize: 2

@@ -36,12 +36,12 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 0
           containers:
             - name: mysql
-              kubes: 5
+              kubes: 6
             - name: redmine
-              kubes: 3
+              kubes: 4
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
@@ -59,7 +59,7 @@ kuberdock:
             - name: mysql
               kubes: 6
             - name: redmine
-              kubes: 5
+              kubes: 4
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
@@ -74,9 +74,9 @@ kuberdock:
           kubeType: 2
           containers:
             - name: mysql
-              kubes: 4
+              kubes: 6
             - name: redmine
-              kubes: 2
+              kubes: 4
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 2

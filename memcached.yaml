@@ -40,20 +40,20 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 0
+          kubeType: 1
           containers:
             - name: memcached
-              kubes: 2
+              kubes: 1
     - name: L
       goodFor: business
       publicIP: true
       pods:
         -
           name: $APP_NAME$
-          kubeType: 0
+          kubeType: 2
           containers:
             - name: memcached
-              kubes: 4
+              kubes: 1
 spec:
   template:
     metadata:

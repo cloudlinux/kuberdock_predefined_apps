@@ -30,14 +30,14 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 0
           containers:
             - name: mysql
-              kubes: 5
+              kubes: 6
             - name: wordpress
-              kubes: 2
+              kubes: 4
             - name: elastic
-              kubes: 5
+              kubes: 6
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 1
@@ -76,11 +76,11 @@ kuberdock:
           kubeType: 2
           containers:
             - name: mysql
-              kubes: 4
+              kubes: 6
             - name: wordpress
-              kubes: 2
-            - name: elastic
               kubes: 4
+            - name: elastic
+              kubes: 6
           persistentDisks:
             - name: mysql-persistent-storage
               pdSize: 2

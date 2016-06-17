@@ -29,7 +29,7 @@ kuberdock:
       pods:
         -
           name: $APP_NAME$
-          kubeType: 1
+          kubeType: 0
           containers:
             - name: mongodb
               kubes: 2
@@ -46,7 +46,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: mongodb
-              kubes: 4
+              kubes: 2
           persistentDisks:
             - name: mongodb-persistent-storage
               pdSize: 1
