@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:tf2| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing [b]Team Fortress 2[/b].
+    Team Fortress 2 is an online first-person shooter video game 
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    [b]Important![/b] Before the order you should get steam token from http://steamcommunity.com/dev/managegameservers
+    Please add AppID "440" and disired description for your new Team Fortress 2.
+    Copy "Login Token" and add it into the field "Steam Token"
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]Team Fortress 2![/b]
+    Please find more information about Team Fortress 2 software on the official website [url]http://www.teamfortress.com/[/url]
+    Your server is ready and you can use %PUBLIC_ADDRESS% to access your server.
+
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: memcached
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginner
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 0
+          containers:
+            - name: tf2
+              kubes: 7
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: tf2
+              kubes: 7
+    - name: L
+      goodFor: business
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 2
+          containers:
+            - name: tf2
+              kubes: 7
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      restartPolicy: "Always"
+      containers:
+        -
+          name: tf2
+          image: hub.kuberdock.com/tf2
+          args:
+            - -game
+            - tf
+            - -console
+            - -usercon
+            - -nohltv
+            - +sv_pure
+            - "1"
+            - +map
+            - $MAP|default:ctf_2fort|Choose your map$
+            - +maxplayers
+            - "$MAX|default:24|max players$"
+            - +sv_setsteamaccount
+            - $STEAM_TOKEN|default:|Insert your Steam Token$
+          ports:
+            - containerPort: 27015
+              podPort: 27015
+              protocol: TCP
+              isPublic: True
+            - containerPort: 27015
+              podPort: 27015
+              protocol: UDP
+              isPublic: True
