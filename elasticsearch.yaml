@@ -88,3 +88,4 @@ spec:
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: elastic-persistent-storage
+

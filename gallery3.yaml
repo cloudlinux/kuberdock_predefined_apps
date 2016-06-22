@@ -132,3 +132,4 @@ spec:
           volumeMounts:
             - mountPath: /var/www/var
               name: gallery-persistent-storage
+

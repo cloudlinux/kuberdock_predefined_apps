@@ -157,3 +157,4 @@ spec:
               name: dokuwiki-conf-persistent-storage
             - mountPath: /dokuwiki/lib/tpl
               name: dokuwiki-tpl-persistent-storage
+

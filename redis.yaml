@@ -90,3 +90,4 @@ spec:
             - mountPath: /data
               name: redis-persistent-storage
           workingDir: /data
+

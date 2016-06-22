@@ -149,3 +149,4 @@ spec:
             - mountPath: /var/www/html
               name: phpbb-persistent-storage
           workingDir: /var/www/html
+

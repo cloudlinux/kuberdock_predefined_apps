@@ -160,3 +160,4 @@ spec:
           volumeMounts:
             - mountPath: /var/www/html
               name: sugarcrm-persistent-storage
+

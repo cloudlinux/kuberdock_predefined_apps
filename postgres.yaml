@@ -97,3 +97,4 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-persistent-storage
+

@@ -144,3 +144,4 @@ spec:
             - mountPath: /var/www/html
               name: drupal-persistent-storage
           workingDir: /var/www/html
+

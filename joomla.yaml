@@ -142,3 +142,4 @@ spec:
             - mountPath: /var/www/html
               name: joomla-persistent-storage
           workingDir: /var/www/html
+

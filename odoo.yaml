@@ -145,3 +145,4 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/odoo
               name: odoo-persistent-storage
+

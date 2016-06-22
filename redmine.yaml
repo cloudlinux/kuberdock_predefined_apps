@@ -146,3 +146,4 @@ spec:
             - mountPath: /usr/src/redmine/files
               name: redmine-persistent-storage
           workingDir: /usr/src/redmine
+
