@@ -14,7 +14,7 @@ kuberdock:
     You have installed [b]DokuWiki[/b]
     Please find more information about DokuWiki on the official site [url]https://www.dokuwiki.org[/url]
     To access [b]DokuWiki[/b] use this link: [url]http://%PUBLIC_ADDRESS%/install.php[/url]
-
+    Your [b]DokuWiki[/b] installation is available here: [url]http://%PUBLIC_ADDRESS%/[/url]
     Please, restart pod after installation.
 
   # required for cPanel to do proxy to user`s domain
