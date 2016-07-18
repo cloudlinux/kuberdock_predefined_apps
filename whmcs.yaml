@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: $APP_NAME|default:whmcs| Enter your application name$
+kuberdock:
+  packageID: 0
+  preDescription: |
+    You are installing the application [b]WHMCS[/b].
+    WHMCS is the leading web hosting automation platform. Handling signups, provisioning, billing and support, 
+    WHMCS puts you firmly in control of your business.
+    All the components needed for this application correct work will also be installed: [b]MySQL[/b] server.
+    Choose the amount of resources or use recommended parameters set by default.
+    First choose package.
+    When you click "Order now", you will get to order processing page.
+  postDescription: |
+    You have installed [b]WHMCS![/b]
+    Please find more information about WHMCS software on the official website [url]https://www.whmcs.com/[/url]
+    To access [b]WHMCS[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
+    You can access [b]WHMCS[/b] using credentials:
+    [b]Login:[/b] admin
+    [b]Password:[/b]  admin
+    Before proceeding with WHMCS installation, please make sure to obtain its license.
+    If you have WHMCS account, please log in here : [url]https://www.whmcs.com/members/[/url]
+    To register your account go here : [url]https://www.whmcs.com/order/[/url]
+    
+  # required for cPanel to do proxy to user`s domain
+  # proxy:
+    # root:
+      # container: WHMCS
+      # domain: $APP_DOMAIN|default:user_domain_list|Select application domain$
+  appPackages:
+    - name: S
+      goodFor: beginner
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 0
+          containers:
+            - name: mysql
+              kubes: 6
+            - name: whmcs
+              kubes: 4
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 1
+            - name: whmcs-persistent-storage
+              pdSize: 1
+    - name: M
+      recommended: yes
+      goodFor: regular use
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 1
+          containers:
+            - name: mysql
+              kubes: 6
+            - name: whmcs
+              kubes: 4
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 1
+            - name: whmcs-persistent-storage
+              pdSize: 1
+    - name: L
+      goodFor: business
+      publicIP: true
+      pods:
+        -
+          name: $APP_NAME$
+          kubeType: 2
+          containers:
+            - name: mysql
+              kubes: 6
+            - name: whmcs
+              kubes: 4
+          persistentDisks:
+            - name: mysql-persistent-storage
+              pdSize: 2
+            - name: whmcs-persistent-storage
+              pdSize: 2
+spec:
+  template:
+    metadata:
+      labels:
+        name: $APP_NAME$
+    spec:
+      volumes:
+        - name: mysql-persistent-storage
+          persistentDisk:
+            pdName: whmcs_mysql_$PD_RAND|default:autogen|PD rand$
+        - name: whmcs-persistent-storage
+          persistentDisk:
+            pdName: whmcs_www_$PD_RAND$
+      restartPolicy: "Always"
+      resolve: ["mysql", "localhost"]
+      containers:
+        -
+          name: mysql
+          image: kuberdock/mysql
+          env:
+            - name: MYSQL_DATABASE
+              value: whmcs
+            - name: MYSQL_USER
+              value: whmcs
+            - name: MYSQL_PASSWORD
+              value: whmcs
+            - name: MYSQL_ROOT_PASSWORD
+              value: whmcs
+            - name: MYSQL_AUTO_MEMORY_ALLOCATE
+              value: $MYSQL_AUTO_MEMORY_ALLOCATE|default:innodb|Please choose default MySQL engine "innodb" or "myisam"$
+          ports:
+            - containerPort: 3306
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-persistent-storage
+        -
+          name: whmcs
+          image: kuberdock/whmcs
+          env:
+            - name: WHMCS_LICENSE
+              value: $WHMCS_LICENSE|default:|Please enter your WHMCS license key$
+          ports:
+            - containerPort: 80
+              isPublic: True
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: whmcs-persistent-storage
+          workingDir: /usr/share/nginx/html
