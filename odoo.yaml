@@ -18,6 +18,7 @@ kuberdock:
     [b]Odoo XML-RPC/HTTP port:[/b] $ODOO_XMLRPC_HOST_PORT$
     [b]Odoo XML-RPC/HTTP secure port:[/b] $ODOO_XMLRPCS_HOST_PORT$
     You can access [b]PostgreSQL[/b] using credentials:
+    [b]User:[/b] odoo
     [b]Password:[/b] $POSTGRES_USER_PASSWORD$
 
     We recommend you to save the credentials.
