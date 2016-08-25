@@ -158,7 +158,7 @@ spec:
             - name: DB_PASS
               value: $MYSQL_USER_PASSWORD$
             - name: DB_DUMP_FREQ
-              value: "14400"
+              value: "1440"
             - name: DB_DUMP_TARGET
               value: /backup
             - name: DB_DUMP_DEBUG
