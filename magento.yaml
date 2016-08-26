@@ -14,6 +14,7 @@ kuberdock:
   postDescription: |
     You have installed [b]Magento![/b]
     Please find more information about Magento software on the official website [url]https://magento.com/[/url]
+    Before you will be able to use your application please wait until statuses below will be "Running".
     To access [b]Magento[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
     You can access [b]MySQL[/b] using credentials:
     [b]Host:[/b] 127.0.0.1
