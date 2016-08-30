@@ -6,7 +6,7 @@ kuberdock:
   packageID: 0
   preDescription: |
     You are installing the application [b]WHMCS[/b].
-    WHMCS is the leading web hosting automation platform. Handling signups, provisioning, billing and support, 
+    WHMCS is the leading web hosting automation platform. Handling signups, provisioning, billing and support,
     WHMCS puts you firmly in control of your business.
     [b]Note![/b] Before proceeding with WHMCS installation, please make sure to obtain its license.
     If you have WHMCS account, please log in here : [url]https://www.whmcs.com/members/[/url]
@@ -99,7 +99,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: mysql
           env:
             - name: MYSQL_DATABASE
               value: whmcs
@@ -113,6 +113,8 @@ spec:
               value: $MYSQL_AUTO_MEMORY_ALLOCATE|default:innodb|Please choose default MySQL engine "innodb" or "myisam"$
           ports:
             - containerPort: 3306
+          args:
+            - --sql-mode=IGNORE_SPACE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
           readinessProbe:
             tcpSocket:
               port: 3306
@@ -122,7 +124,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: whmcs
-          image: kuberdock/whmcs
+          image: bliss/hosted-whmcs
           env:
             - name: WHMCS_LICENSE
               value: $WHMCS_LICENSE|default:|Please enter your WHMCS license key$
@@ -134,7 +136,6 @@ spec:
               port: 80
             initialDelaySeconds: 5
           volumeMounts:
-            - mountPath: /usr/share/nginx/html
+            - mountPath: /var/opt/persistent
               name: whmcs-persistent-storage
-          workingDir: /usr/share/nginx/html
-          
+          workingDir: /var/opt/whmcs
