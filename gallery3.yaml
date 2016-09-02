@@ -123,8 +123,8 @@ spec:
           name: gallery
           image: kuberdock/gallery3
           ports:
-          - containerPort: 80
-            isPublic: True
+            - containerPort: 80
+              isPublic: True
           readinessProbe:
             tcpSocket:
               port: 80
