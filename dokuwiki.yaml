@@ -36,16 +36,12 @@ kuberdock:
           persistentDisks:
             - name: dokuwiki-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-tpl-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-conf-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-data-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-plugins-persistent-storage
               pdSize: 1
     - name: M
@@ -62,16 +58,12 @@ kuberdock:
           persistentDisks:
             - name: dokuwiki-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-tpl-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-conf-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-data-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-plugins-persistent-storage
               pdSize: 1
     - name: L
@@ -87,16 +79,12 @@ kuberdock:
           persistentDisks:
             - name: dokuwiki-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-tpl-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-conf-persistent-storage
               pdSize: 1
-          persistentDisks:
             - name: dokuwiki-data-persistent-storage
               pdSize: 2
-          persistentDisks:
             - name: dokuwiki-plugins-persistent-storage
               pdSize: 1
 spec:
