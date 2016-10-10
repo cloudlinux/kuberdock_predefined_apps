@@ -101,7 +101,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
               value: magento
@@ -124,7 +124,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: magento
-          image: alexcheng/magento
+          image: kuberdock/magento:1.9.1.0
           lifecycle:
             postStart:
               exec:

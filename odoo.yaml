@@ -111,7 +111,7 @@ spec:
               name: postgres-persistent-storage
         -
           name: odoo
-          image: kuberdock/odoo
+          image: kuberdock/odoo:9
           lifecycle:
             postStart:
               exec:

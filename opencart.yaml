@@ -100,7 +100,7 @@ spec:
         containers:
           -
             name: mysql
-            image: kuberdock/mysql
+            image: kuberdock/mysql:5.7
             env:
               - name: MYSQL_DATABASE
                 value: opencart
@@ -123,7 +123,7 @@ spec:
                 name: mysql-persistent-storage
           -
             name: opencart
-            image: vimagick/opencart
+            image: kuberdock/opencart:2.2.0.0
             lifecycle:
               postStart:
                 exec:

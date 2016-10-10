@@ -89,7 +89,7 @@ spec:
       containers:
         -
           name: koken
-          image: koken/koken-lemp
+          image: kuberdock/koken-lemp:2014.08
           env:
             - name: PATH
               value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

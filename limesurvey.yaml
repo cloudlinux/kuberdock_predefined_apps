@@ -83,7 +83,7 @@ spec:
       containers:
         -
           name: limesurvey
-          image: crramirez/limesurvey
+          image: kuberdock/limesurvey:2.50.1
           lifecycle:
             postStart:
               exec:

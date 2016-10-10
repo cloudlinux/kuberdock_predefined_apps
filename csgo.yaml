@@ -66,7 +66,7 @@ spec:
       containers:
         -
           name: csgo
-          image: hub.kuberdock.com/csgo
+          image: hub.kuberdock.com/csgo:1
           args:
             - -game
             - csgo
