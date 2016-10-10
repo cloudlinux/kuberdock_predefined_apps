@@ -21,8 +21,7 @@ kuberdock:
     To access [b]WHMCS[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
     Admin area is available here: [url]http://%PUBLIC_ADDRESS%/admin[/url]
     You can access [b]WHMCS[/b] using credentials:
-    [b]Login:[/b] admin
-    [b]Password:[/b]  admin
+    [b]Login:[/b] Admin
   # required for cPanel to do proxy to user`s domain
   # proxy:
     # root:
@@ -31,7 +30,7 @@ kuberdock:
   appPackages:
     - name: S
       goodFor: beginner
-      publicIP: true
+      baseDomain: $BASE_DOMAIN|default:hosted.cloudlinux.com|Your application base domain$
       pods:
         -
           name: $APP_NAME$
@@ -49,7 +48,7 @@ kuberdock:
     - name: M
       recommended: yes
       goodFor: regular use
-      publicIP: true
+      baseDomain: $BASE_DOMAIN|default:hosted.cloudlinux.com|Your application base domain$
       pods:
         -
           name: $APP_NAME$
@@ -66,7 +65,7 @@ kuberdock:
               pdSize: 1
     - name: L
       goodFor: business
-      publicIP: true
+      baseDomain: $BASE_DOMAIN|default:hosted.cloudlinux.com|Your application base domain$
       pods:
         -
           name: $APP_NAME$
@@ -102,13 +101,13 @@ spec:
           image: mysql
           env:
             - name: MYSQL_DATABASE
-              value: whmcs
+              value: $MYSQL_DATABASE|default:whmcs|MySQL database$
             - name: MYSQL_USER
-              value: whmcs
+              value: $MYSQL_USER|default:whmcs|MySQL user$
             - name: MYSQL_PASSWORD
-              value: whmcs
+              value: $MYSQL_PASSWORD|default:autogen|MySQL user password$
             - name: MYSQL_ROOT_PASSWORD
-              value: whmcs
+              value: $MYSQL_ROOT_PASSWORD|default:autogen|MySQL root password$
             - name: MYSQL_AUTO_MEMORY_ALLOCATE
               value: $MYSQL_AUTO_MEMORY_ALLOCATE|default:innodb|Please choose default MySQL engine "innodb" or "myisam"$
           ports:
@@ -126,8 +125,22 @@ spec:
           name: whmcs
           image: bliss/hosted-whmcs
           env:
-            - name: WHMCS_LICENSE
-              value: $WHMCS_LICENSE|default:|Please enter your WHMCS license key$
+            - name: LICENSE
+              value: $LICENSE|default:|Please enter your WHMCS license key$
+            - name: PASSWORD
+              value: $PASSWORD|default:|WHMCS admin password$
+            - name: DOMAIN
+              value: $DOMAIN|default:|WHMCS application domain$
+            - name: DB_PASSWORD
+              value: $MYSQL_PASSWORD$
+            - name: DB_USERNAME
+              value: $MYSQL_USER$
+            - name: DB_NAME
+              value: $MYSQL_DATABASE$
+            - name: DB_HOST
+              value: 127.0.0.1
+            - name: SERVER_NAME
+              value: whmcs.hosted.cloudlinux.com
           ports:
             - containerPort: 80
               isPublic: True
