@@ -126,20 +126,6 @@ spec:
         -
           name: mantis
           image: vimagick/mantisbt
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /var/www/html;
-                    if [ -s /var/www/html/config_inc.php ]; then
-                    rm -rf /var/www/html/admin;
-                    fi;
-                    if [ ! -f /var/www/html/index.php ]; then
-                    cp -rp /originroot/var/www/html/. /var/www/html/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
@@ -150,5 +136,6 @@ spec:
           volumeMounts:
             - mountPath: /var/www/html
               name: mantis-persistent-storage
+              kdCopyFromImage: true
           workingDir: /var/www/html
 

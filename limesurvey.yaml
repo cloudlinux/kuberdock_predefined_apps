@@ -84,17 +84,6 @@ spec:
         -
           name: limesurvey
           image: crramirez/limesurvey
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /app;
-                    if [ ! -f /app/index.php ]; then
-                    cp -rp /originroot/app/. /app/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
@@ -107,4 +96,5 @@ spec:
               name: mysql-persistent-storage
             - mountPath: /app
               name: limesurvey-persistent-storage
+              kdCopyFromImage: true
 

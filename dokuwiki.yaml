@@ -114,19 +114,6 @@ spec:
         -
           name: dokuwiki
           image: mprasil/dokuwiki
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    if [ -e /dokuwiki/conf/local.php ]; then
-                    rm -rf /dokuwiki/install.php;
-                    fi;
-                    if [ ! -f /dokuwiki/index.php ]; then
-                    cp -rp /originroot/dokuwiki/. /dokuwiki/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
@@ -137,12 +124,17 @@ spec:
           volumeMounts:
             - mountPath: /dokuwiki
               name: dokuwiki-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/data
               name: dokuwiki-data-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/lib/plugins
               name: dokuwiki-plugins-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/conf
               name: dokuwiki-conf-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/lib/tpl
               name: dokuwiki-tpl-persistent-storage
+              kdCopyFromImage: true
 

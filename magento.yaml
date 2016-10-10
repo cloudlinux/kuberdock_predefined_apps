@@ -125,17 +125,6 @@ spec:
         -
           name: magento
           image: alexcheng/magento
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /var/www/htdocs;
-                    if [ ! -f /var/www/htdocs/index.php ]; then
-                    cp -rp /originroot/var/www/htdocs/. /var/www/htdocs/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
@@ -146,4 +135,5 @@ spec:
           volumeMounts:
             - mountPath: /var/www/htdocs
               name: magento-persistent-storage
+              kdCopyFromImage: true
 

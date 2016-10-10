@@ -112,17 +112,6 @@ spec:
         -
           name: odoo
           image: kuberdock/odoo
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    if [ ! -f  /var/lib/odoo/openerp-server.conf ]; then
-                    cp /etc/odoo/openerp-server.conf /var/lib/odoo/openerp-server.conf;
-                    chown odoo -R /var/lib/odoo;
-                    fi
           env:
             - name: DB_PORT_5432_TCP_ADDR
               value: 127.0.0.1
@@ -145,5 +134,6 @@ spec:
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/odoo
+              kdCopyFromImage: true
               name: odoo-persistent-storage
 

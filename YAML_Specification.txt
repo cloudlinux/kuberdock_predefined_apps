@@ -225,13 +225,15 @@ If at least one PublicIP parameter in the whole YAML is "true", then Public IP w
 volumeMounts:
         - mountPath: /var/lib/mysql
           name: wordpress-persistent
+	  kdCopyFromImage: true
 ++++++++++++++++++++++++
 
   volumeMounts begins a list of container directories which will be mounted to persistent storage or 
 persistent local storage. It depends on type of volumes above.
     mountPath - mount path within the container.
     name - name of persistent storage to be used (name parameter from volumes section).
-    
+    kdCopyFromImage - If set to true contents of the mountPath folder will be 
+    coppied from the docker image the container is created from on PODs creation. False by default.
 ++++++++++++++++++++++++
 name: mysql
      image: mysql:5
