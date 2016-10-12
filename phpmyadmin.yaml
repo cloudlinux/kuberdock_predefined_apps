@@ -93,7 +93,7 @@ spec:
             - name: MYSQL_DATABASE
               value: $MYSQL_DATABASE|default:mydata|Please type appropriate database name$
             - name: MYSQL_USER
-              value: $MYSQL_USER|default:user|Pleae choose your database user$
+              value: $MYSQL_USER|default:user|Please choose your database user$
             - name: MYSQL_PASSWORD
               value: $MYSQL_USER_PASSWORD|default:autogen|mysql password$
             - name: MYSQL_ROOT_PASSWORD
