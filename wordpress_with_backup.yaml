@@ -107,7 +107,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
               value: wordpress
@@ -151,7 +151,7 @@ spec:
           workingDir: /var/www/html
         -
           name: dbbackup
-          image: kuberdock/mysql-backup
+          image: kuberdock/mysql-backup:5.7
           env:
             - name: DB_USER
               value: wordpress

@@ -100,7 +100,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
               value: sugarcrm
@@ -123,7 +123,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: sugarcrm
-          image: spantree/sugarcrm
+          image: kuberdock/sugarcrm:6.5
           lifecycle:
             postStart:
               exec:

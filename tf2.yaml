@@ -65,7 +65,7 @@ spec:
       containers:
         -
           name: tf2
-          image: hub.kuberdock.com/tf2
+          image: hub.kuberdock.com/tf2:1
           args:
             - -game
             - tf

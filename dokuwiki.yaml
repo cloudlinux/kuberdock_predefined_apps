@@ -113,7 +113,7 @@ spec:
       containers:
         -
           name: dokuwiki
-          image: mprasil/dokuwiki
+          image: kuberdock/dokuwiki:2016-06-26a
           lifecycle:
             postStart:
               exec:

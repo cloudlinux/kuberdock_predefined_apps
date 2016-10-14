@@ -100,7 +100,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
               value: phpbb
@@ -123,7 +123,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: phpbb
-          image: vimagick/phpbb
+          image: kuberdock/phpbb:3.1.9
           lifecycle:
             postStart:
               exec:

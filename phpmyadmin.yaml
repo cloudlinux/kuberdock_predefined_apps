@@ -88,7 +88,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
               value: $MYSQL_DATABASE|default:mydata|Please type appropriate database name$
@@ -111,7 +111,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: phpmyadmin
-          image: dnhsoft/phpmyadmin
+          image: dnhsoft/phpmyadmin:4.6.4
           env:
             - name: DBHOST
               value: 127.0.0.1

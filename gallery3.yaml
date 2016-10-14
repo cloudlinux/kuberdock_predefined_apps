@@ -98,7 +98,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
               value: gallery3
@@ -121,7 +121,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: gallery
-          image: kuberdock/gallery3
+          image: kuberdock/gallery3:3.0.9
           ports:
             - containerPort: 80
               isPublic: True
