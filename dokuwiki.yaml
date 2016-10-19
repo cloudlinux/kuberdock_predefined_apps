@@ -6,7 +6,7 @@ kuberdock:
   packageID: 0
   preDescription: |
     You are installing the application [b]DokuWiki[/b].
-    [b]DokuWiki[/b] is a simple to use and highly versatile Open Source wiki software that doesn't require a database. 
+    [b]DokuWiki[/b] is a simple to use and highly versatile Open Source wiki software that doesn't require a database.
     Choose the amount of resources or use recommended parameters set by default.
     First choose package.
     When you click "Order now", you will get to order processing page.
@@ -114,19 +114,6 @@ spec:
         -
           name: dokuwiki
           image: kuberdock/dokuwiki:2016-06-26a
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    if [ -e /dokuwiki/conf/local.php ]; then
-                    rm -rf /dokuwiki/install.php;
-                    fi;
-                    if [ ! -f /dokuwiki/index.php ]; then
-                    cp -rp /originroot/dokuwiki/. /dokuwiki/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
@@ -137,12 +124,17 @@ spec:
           volumeMounts:
             - mountPath: /dokuwiki
               name: dokuwiki-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/data
               name: dokuwiki-data-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/lib/plugins
               name: dokuwiki-plugins-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/conf
               name: dokuwiki-conf-persistent-storage
+              kdCopyFromImage: true
             - mountPath: /dokuwiki/lib/tpl
               name: dokuwiki-tpl-persistent-storage
+              kdCopyFromImage: true
 
