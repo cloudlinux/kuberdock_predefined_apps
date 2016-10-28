@@ -98,10 +98,10 @@ spec:
       containers:
         -
           name: mysql
-          image: mysql
+          image: kuberdock/mysql:5.7
           env:
             - name: MYSQL_DATABASE
-              value: $MYSQL_DATABASE|default:whmcs|MySQL database$
+              value: whmcs
             - name: MYSQL_USER
               value: $MYSQL_USER|default:whmcs|MySQL user$
             - name: MYSQL_PASSWORD
@@ -123,7 +123,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: whmcs
-          image: bliss/hosted-whmcs
+          image: bliss/hosted-whmcs:0.5
           env:
             - name: LICENSE
               value: $LICENSE|default:|Please enter your WHMCS license key$
@@ -136,7 +136,7 @@ spec:
             - name: DB_USERNAME
               value: $MYSQL_USER$
             - name: DB_NAME
-              value: $MYSQL_DATABASE$
+              value: whmcs
             - name: DB_HOST
               value: 127.0.0.1
             - name: SERVER_NAME
