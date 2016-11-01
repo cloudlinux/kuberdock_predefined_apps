@@ -111,7 +111,7 @@ spec:
               name: postgres-persistent-storage
         -
           name: odoo
-          image: kuberdock/odoo:9
+          image: kuberdock/odoo:9-1
           env:
             - name: DB_PORT_5432_TCP_ADDR
               value: 127.0.0.1
