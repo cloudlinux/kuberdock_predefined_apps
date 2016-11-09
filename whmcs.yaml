@@ -95,6 +95,7 @@ spec:
             pdName: whmcs_www_$PD_RAND$
       restartPolicy: "Always"
       resolve: ["mysql", "localhost"]
+      domain: $DOMAIN|default:whmcs.hosted.cloudlinux.com|Please specify domain name$
       containers:
         -
           name: mysql
@@ -123,14 +124,14 @@ spec:
               name: mysql-persistent-storage
         -
           name: whmcs
-          image: bliss/hosted-whmcs:0.5
+          image: bliss/hosted-whmcs:0.8
           env:
             - name: LICENSE
               value: $LICENSE|default:|Please enter your WHMCS license key$
             - name: PASSWORD
               value: $PASSWORD|default:|WHMCS admin password$
             - name: DOMAIN
-              value: $DOMAIN|default:|WHMCS application domain$
+              value: $DOMAIN$
             - name: DB_PASSWORD
               value: $MYSQL_PASSWORD$
             - name: DB_USERNAME
@@ -139,9 +140,21 @@ spec:
               value: whmcs
             - name: DB_HOST
               value: 127.0.0.1
-            - name: SERVER_NAME
-              value: whmcs.hosted.cloudlinux.com
+            - name: SMTP_USERNAME
+              value: $SMTP_USERNAME|default:|SMTP username$
+            - name: SMTP_PASSWORD
+              value: $SMTP_PASSWORD|default:|SMTP password$
+            - name: SMTP_PORT
+              value: $SMTP_PORT|default:|SMTP port$
+            - name: SMTP_HOST
+              value: $SMTP_HOST|default:|SMTP host$
+            - name: SMTP_SSL
+              value: $SMTP_SSL|default:|SMTP ssl type$
+            - name: INGRESS
+              value: $INGRESS|default:|INGRESS IP address$
           ports:
+            - containerPort: 443
+              isPublic: True
             - containerPort: 80
               isPublic: True
           readinessProbe:
