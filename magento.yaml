@@ -129,9 +129,12 @@ spec:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
-            initialDelaySeconds: 5
+            timeoutSeconds: 60
+            initialDelaySeconds: 20
           volumeMounts:
             - mountPath: /var/www/htdocs
               name: magento-persistent-storage

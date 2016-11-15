@@ -82,7 +82,9 @@ spec:
               podPort: $ELASTIC_TCP_HOST_PORT|default:9300|Enter ElasticSearch tcp host port$
               isPublic: False
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 9200
             initialDelaySeconds: 5
           volumeMounts:
