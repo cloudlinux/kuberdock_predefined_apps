@@ -139,9 +139,12 @@ spec:
               podPort: $REDMINE_HOST_PORT|default:3000|Enter Redmine host port$
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 3000
             initialDelaySeconds: 5
+            timeoutSeconds: 30
           volumeMounts:
             - mountPath: /usr/src/redmine/files
               name: redmine-persistent-storage

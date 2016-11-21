@@ -143,8 +143,11 @@ spec:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
+            timeoutSeconds: 30
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/html
@@ -158,8 +161,11 @@ spec:
             - containerPort: 9300
               isPublic: False
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 9200
+            timeoutSeconds: 30
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
