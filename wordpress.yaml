@@ -15,6 +15,8 @@ kuberdock:
     You have installed [b]WordPress![/b]
     Please find more information about WordPress software on the official website [url]https://wordpress.com[/url]
     To access [b]WordPress[/b] use this link: [url]http://%PUBLIC_ADDRESS%[/url]
+    Once installation is done you may want to activate and configure WP-Mail-SMTP plugin at [url]http://%PUBLIC_ADDRESS%/wp-admin/plugins.php[/url].
+    Otherwise WordPress mailing system won't work.
   # required for cPanel to do proxy to user`s domain
   # proxy:
     # root:
@@ -91,7 +93,7 @@ spec:
       containers:
         -
           name: mysql
-          image: kuberdock/mysql:5.7
+          image: kuberdock/mysql:5.7-1
           env:
             - name: MYSQL_DATABASE
               value: wordpress
@@ -114,7 +116,7 @@ spec:
               name: mysql-persistent-storage
         -
           name: wordpress
-          image: wordpress:4.4.0
+          image: kuberdock/wordpress:4.6.1-1
           env:
             - name: WORDPRESS_DB_USER
               value: wordpress
@@ -126,11 +128,15 @@ spec:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
+            timeoutSeconds: 30
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/html
               name: wordpress-persistent-storage
+              kdCopyFromImage: true
           workingDir: /var/www/html
 

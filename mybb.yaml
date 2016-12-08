@@ -124,27 +124,17 @@ spec:
         -
           name: mybb
           image: kuberdock/mybb:2015.10
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    if [ -s /var/www/mybb/inc/config.php ]; then
-                    rm -rf /var/www/mybb/install;
-                    fi;
-                    if [ ! -f /var/www/mybb/index.php ]; then
-                    cp -rp /originroot/var/www/mybb/. /var/www/mybb/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/mybb
+              kdCopyFromImage: true
               name: mybb-persistent-storage
 

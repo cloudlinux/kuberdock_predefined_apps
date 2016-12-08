@@ -84,27 +84,20 @@ spec:
         -
           name: limesurvey
           image: kuberdock/limesurvey:2.50.1
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /app;
-                    if [ ! -f /app/index.php ]; then
-                    cp -rp /originroot/app/. /app/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
             initialDelaySeconds: 5
+            timeoutSeconds: 30
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-persistent-storage
             - mountPath: /app
               name: limesurvey-persistent-storage
+              kdCopyFromImage: true
 

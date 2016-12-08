@@ -126,29 +126,18 @@ spec:
         -
           name: mantis
           image: kuberdock/mantisbt:1.3.1
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /var/www/html;
-                    if [ -s /var/www/html/config_inc.php ]; then
-                    rm -rf /var/www/html/admin;
-                    fi;
-                    if [ ! -f /var/www/html/index.php ]; then
-                    cp -rp /originroot/var/www/html/. /var/www/html/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/html
               name: mantis-persistent-storage
+              kdCopyFromImage: true
           workingDir: /var/www/html
 

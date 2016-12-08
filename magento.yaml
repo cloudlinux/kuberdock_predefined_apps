@@ -125,25 +125,18 @@ spec:
         -
           name: magento
           image: kuberdock/magento:1.9.1.0
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /var/www/htdocs;
-                    if [ ! -f /var/www/htdocs/index.php ]; then
-                    cp -rp /originroot/var/www/htdocs/. /var/www/htdocs/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
-            initialDelaySeconds: 5
+            timeoutSeconds: 60
+            initialDelaySeconds: 20
           volumeMounts:
             - mountPath: /var/www/htdocs
               name: magento-persistent-storage
+              kdCopyFromImage: true
 

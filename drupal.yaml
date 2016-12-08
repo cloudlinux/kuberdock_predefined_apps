@@ -122,26 +122,19 @@ spec:
         -
           name: drupal
           image: drupal:8
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /var/www/html;
-                    if [ ! -f /var/www/html/index.html ]; then
-                    cp -rp /originroot/var/www/html/. /var/www/html/;
-                    fi
           ports:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
+            timeoutSeconds: 30
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/html
               name: drupal-persistent-storage
+              kdCopyFromImage: true
           workingDir: /var/www/html
 

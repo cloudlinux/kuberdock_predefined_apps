@@ -124,17 +124,6 @@ spec:
         -
           name: sugarcrm
           image: kuberdock/sugarcrm:6.5
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    chown -R www-data:www-data /var/www/html;
-                    if [ ! -f /var/www/html/index.php ]; then
-                    cp -rp /originroot/var/www/html/. /var/www/html/;
-                    fi
           env:
             - name: DATABASE_NAME
               value: sugarcrm
@@ -154,10 +143,14 @@ spec:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 80
+            timeoutSeconds: 30
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/www/html
               name: sugarcrm-persistent-storage
+              kdCopyFromImage: true
 

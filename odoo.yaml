@@ -111,18 +111,7 @@ spec:
               name: postgres-persistent-storage
         -
           name: odoo
-          image: kuberdock/odoo:9
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - "sh"
-                  - "-c"
-                  - >
-                    if [ ! -f  /var/lib/odoo/openerp-server.conf ]; then
-                    cp /etc/odoo/openerp-server.conf /var/lib/odoo/openerp-server.conf;
-                    chown odoo -R /var/lib/odoo;
-                    fi
+          image: kuberdock/odoo:9-1
           env:
             - name: DB_PORT_5432_TCP_ADDR
               value: 127.0.0.1
@@ -140,10 +129,14 @@ spec:
               podPort: $ODOO_XMLRPCS_HOST_PORT|default:8071|Enter Odoo XML-RPC/HTTP secure host port$
               isPublic: True
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
+              scheme: HTTP
               port: 8069
+            timeoutSeconds: 30
             initialDelaySeconds: 5
           volumeMounts:
             - mountPath: /var/lib/odoo
+              kdCopyFromImage: true
               name: odoo-persistent-storage
 
