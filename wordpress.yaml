@@ -32,7 +32,7 @@ kuberdock:
           kubeType: 0
           containers:
             - name: mysql
-              kubes: 6
+              kubes: 1
             - name: wordpress
               kubes: 4
           persistentDisks:
@@ -50,7 +50,7 @@ kuberdock:
           kubeType: 1
           containers:
             - name: mysql
-              kubes: 6
+              kubes: 1
             - name: wordpress
               kubes: 4
           persistentDisks:
@@ -67,7 +67,7 @@ kuberdock:
           kubeType: 2
           containers:
             - name: mysql
-              kubes: 6
+              kubes: 1
             - name: wordpress
               kubes: 4
           persistentDisks:
