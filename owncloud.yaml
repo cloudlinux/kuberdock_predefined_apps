@@ -126,9 +126,7 @@ spec:
             - containerPort: 80
               isPublic: True
           readinessProbe:
-            httpGet:
-              path: /
-              scheme: HTTP
+            tcpSocket:
               port: 80
             initialDelaySeconds: 5
           volumeMounts:
